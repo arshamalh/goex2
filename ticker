@@ -1,0 +1,23 @@
+package main
+
+var wg sync.WaitGroup
+
+func BackgroundTask() {
+	ticker := time.NewTicker(time.Second)
+	i := 0
+	for range ticker.C {
+		fmt.Println("Tock")
+		i++
+		if i > 2 {
+			ticker.Stop()
+			wg.Done()
+		}
+	}
+}
+
+func main() {
+	go BackgroundTask()
+	wg.Add(1)
+	fmt.Println("Background task is not blocking")
+	wg.Wait()
+}
