@@ -1,0 +1,31 @@
+package main
+
+import "fmt"
+
+type Developer struct {
+	Name string
+	Age  int
+}
+
+func FilterUnique(developers []Developer) []string {
+	var devs []string
+	for _, dev := range developers {
+		if !contains(devs, dev.Name) {
+			devs = append(devs, dev.Name)
+		}
+	}
+	return devs
+}
+
+func contains(arrayOfStrings []string, item string) bool {
+	for _, value := range arrayOfStrings {
+		if item == value {
+			return true
+		}
+	}
+	return false
+}
+
+func main() {
+	fmt.Println("Filter Unique Challenge")
+}
