@@ -1,0 +1,39 @@
+package main
+
+import (
+	"fmt"
+	"net/http"
+	"os"
+	"sync"
+)
+
+var wg sync.WaitGroup
+var mut sync.Mutex
+
+func main() {
+	if len(os.Args) > 2 {
+		for _, url := range os.Args[1:] {
+			go sendRequest("https://" + url)
+			wg.Add(1)
+		}
+	}
+	wg.Wait()
+}
+
+func sendRequest(url string) {
+	defer wg.Done()
+	response, err := http.Get(url)
+
+	if err != nil {
+		fmt.Println("error fetching " + url)
+	}
+
+	// defer response.Body.Close()
+	mut.Lock()
+	defer mut.Unlock()
+	fmt.Printf("[%d] %s\n", response.StatusCode, url)
+	// fmt.Println(response.Body)
+}
+
+// request
+// time go run main.go google.com github.com bing.com youtube.com dev.to twitter.com
