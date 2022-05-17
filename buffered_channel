@@ -1,0 +1,18 @@
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	ch := make(chan int)
+	go func() {
+		ch <- 1
+		fmt.Println("This has been blocked until now.") // it will be printed intantly if we have a buffered channel
+	}()
+
+	time.Sleep(time.Second * 5)
+	fmt.Println(<-ch)
+	// time.Sleep(time.Second) // Print in goroutine may not work, may work! that's because of difference betweet execution time of print above and print in the goroutine
+}
