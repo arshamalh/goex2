@@ -1,0 +1,22 @@
+package main
+
+import "fmt"
+
+func main() {
+	ch := make(chan int)
+
+	go channelSender(ch, 1)
+	go channelSender(ch, 2)
+	go channelSender(ch, 3) // Why is this always running first? and then 1 and then 2?
+
+	for i := 0; i < 9; i++ {
+		fmt.Println("Receiving: ", <-ch)
+	}
+}
+
+func channelSender(ch chan int, channel_index int) {
+	for i := 0; i < 3; i++ {
+		fmt.Printf("sending %d from channel %d\n", i, channel_index)
+		ch <- i
+	}
+}
