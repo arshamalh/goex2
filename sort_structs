@@ -1,0 +1,63 @@
+package main
+
+import (
+	"fmt"
+	"sort"
+)
+
+// Flight - a struct that
+// contains information about flights
+type Flight struct {
+	Origin      string
+	Destination string
+	Price       int
+}
+
+type Flights []Flight
+
+func (fl Flights) Len() int           { return len(fl) }
+func (fl Flights) Swap(i, j int)      { fl[i], fl[j] = fl[j], fl[i] }
+func (fl Flights) Less(i, j int) bool { return fl[i].Price < fl[j].Price }
+
+// SortByPrice sorts flights from highest to lowest
+func SortByPrice(flights []Flight) []Flight {
+	nflights := Flights(flights)
+	// sort.Sort(sort.Reverse(nflights))
+	sort.Sort(nflights)
+	return nflights
+}
+
+func printFlights(flights Flights) {
+	for _, flight := range flights {
+		fmt.Printf("Origin: %s, Destination: %s, Price: %d\n", flight.Origin, flight.Destination, flight.Price)
+	}
+}
+
+func main() {
+	// an empty slice of flights
+	var flights []Flight = []Flight{
+		{
+			Origin:      "san fransisco",
+			Destination: "berlin",
+			Price:       10,
+		}, {
+			Origin:      "san fransisco",
+			Destination: "berlin",
+			Price:       5,
+		}, {
+			Origin:      "san fransisco",
+			Destination: "berlin",
+			Price:       22,
+		}, {
+			Origin:      "san fransisco",
+			Destination: "berlin",
+			Price:       100,
+		}, {
+			Origin:      "san fransisco",
+			Destination: "berlin",
+			Price:       7,
+		},
+	}
+	sortedList := SortByPrice(flights)
+	printFlights(sortedList)
+}
