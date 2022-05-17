@@ -1,0 +1,109 @@
+package main
+
+import "fmt"
+
+type Stack []Flight
+
+type Flight struct {
+	Origin      string
+	Destination string
+	Price       int
+}
+
+func (s *Stack) Pop() Flight {
+	flight := (*s)[len(*s)-1]
+	*s = (*s)[:len(*s)-1]
+	return flight
+}
+
+func (s *Stack) Push(f Flight) {
+	*s = append(*s, f)
+}
+
+func (s *Stack) Peek() Flight {
+	return (*s)[len(*s)-1]
+}
+
+func (s *Stack) IsEmpty() bool {
+	return len(*s) == 0
+}
+
+func main() {
+	fmt.Println("Go Stack Implementation")
+
+	myStack := new(Stack)
+	myStack.Push(Flight{
+		Origin:      "london",
+		Destination: "paris",
+		Price:       10,
+	})
+	myStack.Push(Flight{
+		Origin:      "london",
+		Destination: "paris",
+		Price:       15,
+	})
+	fmt.Printf("%#v\n", myStack)
+	item := myStack.Peek()
+	fmt.Printf("%#v\n", myStack)
+	fmt.Printf("%#v\n", item)
+	item = myStack.Pop()
+	fmt.Printf("%#v\n", myStack)
+	fmt.Printf("%#v\n", item)
+}
+
+/////
+// package main
+
+// import "fmt"
+
+// type Stack struct {
+// 	Items []Flight
+// }
+
+// type Flight struct {
+// 	Origin      string
+// 	Destination string
+// 	Price       int
+// }
+
+// func (s *Stack) Pop() Flight {
+// 	flight := s.Items[len(s.Items)-1]
+// 	s.Items = s.Items[:len(s.Items)-1]
+// 	return flight
+// }
+
+// func (s *Stack) Push(f Flight) {
+// 	s.Items = append(s.Items, f)
+// }
+
+// func (s *Stack) Peek() Flight {
+// 	return s.Items[len(s.Items)-1]
+// }
+
+// func (s *Stack) IsEmpty() bool {
+// 	return len(s.Items) == 0
+// }
+
+// func main() {
+// 	fmt.Println("Go Stack Implementation")
+
+// 	myStack := new(Stack)
+// 	myStack.Push(Flight{
+// 		Origin:      "london",
+// 		Destination: "paris",
+// 		Price:       10,
+// 	})
+// 	myStack.Push(Flight{
+// 		Origin:      "london",
+// 		Destination: "paris",
+// 		Price:       15,
+// 	})
+// 	fmt.Printf("%#v\n", myStack)
+// 	item := myStack.Peek()
+// 	fmt.Printf("%#v\n", myStack)
+// 	fmt.Printf("%#v\n", item)
+// 	item = myStack.Pop()
+// 	fmt.Printf("%#v\n", myStack)
+// 	fmt.Printf("%#v\n", item)
+
+// }
