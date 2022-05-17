@@ -1,0 +1,39 @@
+package main
+
+import (
+	"fmt"
+)
+
+type BadInputErr string
+
+func (b BadInputErr) Error() string {
+	return "bad input error"
+}
+
+type RandomErr string
+
+func (r RandomErr) Error() string {
+	return "random error"
+}
+
+func SendsAnError(x int) error {
+	if x == 1 {
+		return BadInputErr("")
+	} else if x == 2 {
+		return RandomErr("")
+	}
+	return nil
+}
+
+func main() {
+	err := SendsAnError(2)
+
+	switch err.(type) {
+	case BadInputErr:
+		fmt.Println("bad input error returned")
+	case RandomErr:
+		fmt.Println("random error returned")
+	default:
+		fmt.Println("default case")
+	}
+}
