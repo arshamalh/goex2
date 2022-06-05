@@ -1,0 +1,37 @@
+package main
+
+import (
+	"fmt"
+	"math/rand"
+	"sync"
+	"time"
+)
+
+func DoWork() int {
+	time.Sleep(time.Second)
+	return rand.Intn(100)
+}
+
+func main() {
+	ch := make(chan int)
+
+	var wg sync.WaitGroup
+
+	go func() {
+		for i := 0; i < 200; i++ {
+			wg.Add(1)
+			go func() {
+				result := DoWork()
+				ch <- result
+				wg.Done()
+			}()
+		}
+		wg.Wait()
+		close(ch)
+	}()
+
+	for item := range ch {
+		fmt.Println(item)
+	}
+
+}
