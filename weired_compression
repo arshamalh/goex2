@@ -1,0 +1,32 @@
+package main
+
+import "fmt"
+
+// I would love to learn how this shifting and compressions are working.
+
+func Compress(permissions []uint8) uint64 {
+	var compressed uint64
+	for _, permission := range permissions {
+		compressed |= 1 << uint64(permission)
+	}
+	return compressed
+}
+
+func Expand(compressed uint64) []uint8 {
+	var permissions []uint8
+	for i := uint64(0); i < 64; i++ {
+		if compressed&(1<<i) != 0 {
+			permissions = append(permissions, uint8(i))
+		}
+	}
+	return permissions
+}
+
+func main() {
+	permissions := []uint8{34, 35, 36}
+	compressed := Compress(permissions)
+	expanded := Expand(compressed)
+	fmt.Println(permissions)
+	fmt.Println(compressed)
+	fmt.Println(expanded)
+}
